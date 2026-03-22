@@ -18,6 +18,9 @@ from django.urls import path, include
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .views import router
+from django.http import HttpResponse
+def welcome(request):
+    return HttpResponse("<h2>Welcome to Octofit Tracker API</h2><p>Visit <a href='/api/'>/api/</a> for API endpoints.</p>")
 import os
 
 codespace_name = os.environ.get('CODESPACE_NAME')
@@ -39,6 +42,7 @@ def api_root(request, format=None):
     })
 
 urlpatterns = [
+    path('', welcome, name='welcome'),
     path('admin/', admin.site.urls),
     path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
