@@ -1,0 +1,32 @@
+from rest_framework import serializers
+from django.contrib.auth.models import User
+from .models import Team, Activity, Workout, Leaderboard
+
+class UserSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(source='_id', read_only=True)
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email']
+
+class TeamSerializer(serializers.ModelSerializer):
+    members = UserSerializer(many=True, read_only=True)
+    class Meta:
+        model = Team
+        fields = ['id', 'name', 'members']
+
+class ActivitySerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = Activity
+        fields = ['id', 'user', 'type', 'duration', 'distance']
+
+class WorkoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Workout
+        fields = ['id', 'name', 'description']
+
+class LeaderboardSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    class Meta:
+        model = Leaderboard
+        fields = ['id', 'user', 'points']
