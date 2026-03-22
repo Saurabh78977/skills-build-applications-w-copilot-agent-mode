@@ -21,8 +21,10 @@ from .views import router
 import os
 
 codespace_name = os.environ.get('CODESPACE_NAME')
+
+# Use http for codespace to avoid certificate issues, fallback to localhost
 if codespace_name:
-    base_url = f"https://{codespace_name}-8000.app.github.dev"
+    base_url = f"http://{codespace_name}-8000.app.github.dev"
 else:
     base_url = "http://localhost:8000"
 
